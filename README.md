@@ -1,4 +1,4 @@
-# Starter_Next/Hardhat Project
+# Smart Contract Management/Project: Function Frontend
 
 After opening the github, you will have to do the following steps to get the code your run in your computer.
 
