@@ -1,5 +1,5 @@
 # Starter Next/Hardhat Project
-# Smart Contract Management/Project: Function Frontend
+## Smart Contract Management/Project: Function Frontend
 After opening the github, you will have to do the following steps to get the code your run in your computer.
 1. Navigate to the project directory in your terminal.
 2. Run npm install (npm i) to install project dependencies.
