@@ -1,23 +1,23 @@
-import {use_State, use_Effect} from "react";
+import {useState, useEffect} from "react";
 import {ethers} from "ethers";
-import atm_abi from "../SCP/ASSESSMENT.sol";
+import atm_abi from "../artifacts/contracts/Assessment.sol/Assessment.json";
 
 export default function HomePage() {
-  const [eth_Wallet, set_Eth_Wallet] = use_State(undefined);
-  const [account, setAccount] = use_State(undefined);
-  const [atm, setATM] = use_State(undefined);
-  const [balance, setBalance] = use_State(undefined);
+  const [ethWallet, setEthWallet] = useState(undefined);
+  const [account, setAccount] = useState(undefined);
+  const [atm, setATM] = useState(undefined);
+  const [balance, setBalance] = useState(undefined);
 
-  const _contract_Address = " 0x5B38Da6a701c568545dCfcB03FcB875f56beddC4";
-  const atm = atm_abi.abi;
+  const contractAddress = "0x5FbDB2315678afecb367f032d93F642f64180aa3";
+  const atmABI = atm_abi.abi;
 
-  const get_Wallet = async() => {
+  const getWallet = async() => {
     if (window.ethereum) {
-      set_Eth_Wallet(window.ethereum);
+      setEthWallet(window.ethereum);
     }
 
-    if (eth_Wallet) {
-      const account = await eth_Wallet.request({method: "eth_accounts"});
+    if (ethWallet) {
+      const account = await ethWallet.request({method: "eth_accounts"});
       handleAccount(account);
     }
   }
@@ -33,12 +33,12 @@ export default function HomePage() {
   }
 
   const connectAccount = async() => {
-    if (!eth_Wallet) {
+    if (!ethWallet) {
       alert('MetaMask wallet is required to connect');
       return;
     }
   
-    const accounts = await eth_Wallet.request({ method: 'eth_requestAccounts' });
+    const accounts = await ethWallet.request({ method: 'eth_requestAccounts' });
     handleAccount(accounts);
     
     // once wallet is set we can get a reference to our deployed contract
@@ -46,9 +46,9 @@ export default function HomePage() {
   };
 
   const getATMContract = () => {
-    const provider = new ethers.providers.Web3Provider(eth_Wallet);
+    const provider = new ethers.providers.Web3Provider(ethWallet);
     const signer = provider.getSigner();
-    const atmContract = new ethers.Contract(_contract_Address, atm, signer);
+    const atmContract = new ethers.Contract(contractAddress, atmABI, signer);
  
     setATM(atmContract);
   }
@@ -77,13 +77,13 @@ export default function HomePage() {
 
   const initUser = () => {
     // Check to see if user has Metamask
-    if (!eth_Wallet) {
-      return <p>Please install Honey in order to use this ATM.</p>
+    if (!ethWallet) {
+      return <p>Please install Metamask in order to use this ATM.</p>
     }
 
     // Check to see if user is connected. If not, connect to their account
     if (!account) {
-      return <button onClick={connectAccount}>Please connect your Honey wallet</button>
+      return <button onClick={connectAccount}>Please connect your Metamask wallet</button>
     }
 
     if (balance == undefined) {
@@ -100,15 +100,18 @@ export default function HomePage() {
     )
   }
 
-  use_Effect(() => {get_Wallet();}, []);
+  useEffect(() => {getWallet();}, []);
 
   return (
     <main className="container">
-      <header><h1>hello to the Honey ATM!</h1></header>
+      <header><h1>*------------------------------------------------*</h1></header>
+      <h2>WE WELCOME YOU IN THE HONEY ATM</h2>
+      <h1>*------------------------------------------------*</h1>
       {initUser()}
       <style jsx>{`
         .container {
           text-align: center
+          
         }
       `}
       </style>
