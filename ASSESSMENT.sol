@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.9;
-contract Scm{
+contract Assessment {
     address payable public _Owner_;
     uint256 public _Balance_;
     
